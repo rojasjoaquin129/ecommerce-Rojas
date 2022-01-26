@@ -4,10 +4,10 @@ import {
   Nav,
   Form,
   Button,
-  FormControl,
   Container,
   Navbar as BTNavbar,
 } from "react-bootstrap";
+import CartWidget from "../CartWidget/CartWidget";
 const NavBar = () => {
   return (
     <BTNavbar bg="dark" variant="dark" expand="lg">
@@ -32,10 +32,10 @@ const NavBar = () => {
                 Something else here
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Link
-            </Nav.Link>
           </Nav>
+          <Nav.Link href="#">
+            <CartWidget />
+          </Nav.Link>
           <Form className="d-flex">
             <Button variant="outline-warning">Salir</Button>
           </Form>
