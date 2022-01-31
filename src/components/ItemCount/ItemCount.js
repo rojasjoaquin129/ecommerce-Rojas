@@ -12,22 +12,33 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const ItemCount = ({ stock }) => {
+  const [messageError, setMessageError] = useState("No se encontro stock");
   const [counter, setCounter] = useState(0);
   const [open, setOpen] = React.useState(false);
 
   const minusCounter = () => {
     if (stock) {
-      if (counter <= 0) return;
-      setCounter(counter - 1);
+      if (counter > 0) {
+        setCounter(counter - 1);
+      } else {
+        setMessageError("No se puede elejir menos de 0 ");
+        handleClick();
+      }
     } else {
+      setMessageError("No se encontro stock");
       handleClick();
     }
   };
   const plusCounter = () => {
     if (stock) {
-      if (counter >= stock) return;
-      setCounter(counter + 1);
+      if (counter < stock) {
+        setCounter(counter + 1);
+      } else {
+        setMessageError("No se puede superar el stock");
+        handleClick();
+      }
     } else {
+      setMessageError("No se encontro stock");
       handleClick();
     }
   };
@@ -71,7 +82,7 @@ const ItemCount = ({ stock }) => {
       </div>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "20%" }}>
-          No se encontro Stock!
+          {messageError}
         </Alert>
       </Snackbar>
     </div>
