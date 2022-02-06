@@ -38,3 +38,8 @@ export const itemsList = new Promise((resolve) => {
     resolve(items);
   }, 2000);
 });
+export const getItem = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve(items[1]);
+  }, 2000);
+});
