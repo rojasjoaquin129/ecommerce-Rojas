@@ -5,7 +5,7 @@ const Sliders = () => {
     <Carousel>
       <Carousel.Item>
         <img
-          className="d-block w-100"
+          className="d-block w-100 "
           src="https://http2.mlstatic.com/D_NQ_697777-MLA48938938725_012022-OO.webp"
           alt="First slide"
         />
