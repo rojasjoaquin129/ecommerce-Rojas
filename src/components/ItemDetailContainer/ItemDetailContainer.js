@@ -1,38 +1,51 @@
 import React, { useState, useEffect } from "react";
 import ItemDetail from "../ItemDetail/ItemDetail";
-import { getItem } from "../service/promese";
+import { itemsList } from "../service/promese";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useParams } from "react-router-dom";
 
 const ItemDetailContainer = () => {
   const [Product, setProduct] = useState({});
   const [loading, setloading] = useState(true);
+
+  const { id } = useParams();
+
   useEffect(() => {
     getItemResult();
   }, []);
 
   const getItemResult = () => {
-    getItem.then((result) => {
-      setProduct(result);
+    itemsList.then((result) => {
+      const selectProduct = result.find((product) => product.id === id);
+      setProduct(selectProduct);
       setloading(false);
     });
   };
 
-  if (loading) {
-    return (
-      <div className="row justify-content-center">
-        <div className="col-sm-4 col-md-3">
-          <h1>Loading.... please wait!!</h1>
-          <br />
-          <CircularProgress />
+  if (id) {
+    if (loading) {
+      return (
+        <div className="row justify-content-center">
+          <div className="col-sm-4 col-md-3">
+            <h1>Loading.... please wait!!</h1>
+            <br />
+            <CircularProgress />
+          </div>
         </div>
+      );
+    }
+    return (
+      <div>
+        <ItemDetail product={Product} />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>No se encontro id</h1>
       </div>
     );
   }
-  return (
-    <div>
-      <ItemDetail product={Product} />
-    </div>
-  );
 };
 
 export default ItemDetailContainer;

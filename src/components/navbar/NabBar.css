@@ -1,0 +1,32 @@
+.activeClass {
+  color: white;
+  text-decoration: none;
+}
+
+.listActive {
+  color: black;
+  text-decoration: none;
+}
+.listActive:hover {
+  color: black;
+}
+
+.datosBlack {
+  color: rgb(180, 177, 177);
+  text-decoration: none;
+}
+.datosBlack:hover {
+  color: black;
+}
+
+.activeClass:hover {
+  color: white;
+}
+
+.datos {
+  color: rgb(180, 177, 177);
+  text-decoration: none;
+}
+.datos:hover {
+  color: white;
+}

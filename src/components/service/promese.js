@@ -6,6 +6,7 @@ const items = [
     img: "https://http2.mlstatic.com/D_NQ_NP_660724-MLA48591993193_122021-O.webp",
     stock: 15,
     description: "esto es un celular",
+    category: "phones",
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ const items = [
     img: "https://http2.mlstatic.com/D_NQ_NP_869470-MLA48280172654_112021-O.webp",
     stock: 12,
     description: "esto es una zapatillas",
+    category: "tennis",
   },
   {
     id: "3",
@@ -22,6 +24,7 @@ const items = [
     img: "https://http2.mlstatic.com/D_NQ_NP_664398-MLA47668885112_092021-O.webp",
     stock: 13,
     description: "esto es una heladera",
+    category: "electro",
   },
   {
     id: "4",
@@ -30,6 +33,7 @@ const items = [
     img: "https://http2.mlstatic.com/D_NQ_NP_667004-MLA40913899475_022020-O.webp",
     stock: 13,
     description: "esto es un aire acondicionado",
+    category: "electro",
   },
 ];
 
@@ -40,6 +44,6 @@ export const itemsList = new Promise((resolve) => {
 });
 export const getItem = new Promise((resolve) => {
   setTimeout(() => {
-    resolve(items[1]);
+    resolve(items[3]);
   }, 2000);
 });
