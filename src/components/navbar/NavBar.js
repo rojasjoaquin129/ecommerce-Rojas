@@ -7,12 +7,14 @@ import {
   Container,
   Navbar as BTNavbar,
 } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import CartWidget from "../CartWidget/CartWidget";
+import "./NabBar.css";
 const NavBar = () => {
   return (
     <BTNavbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
-        <BTNavbar.Brand href="#">MercadoApp</BTNavbar.Brand>
+        <BTNavbar.Brand>MercadoApp</BTNavbar.Brand>
         <BTNavbar.Toggle aria-controls="navbarScroll" />
         <BTNavbar.Collapse id="navbarScroll">
           <Nav
@@ -20,16 +22,47 @@ const NavBar = () => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
+            <Nav.Link>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "activeClass" : "datos"
+                }
+              >
+                Home
+              </NavLink>
+            </Nav.Link>
+            <NavDropdown title="Categorias" id="navbarScrollingDropdown">
+              <NavDropdown.Item>
+                <NavLink
+                  to="/category/tennis"
+                  className={({ isActive }) =>
+                    isActive ? "listActive" : "datosBlack"
+                  }
+                >
+                  Calzado
+                </NavLink>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <NavLink
+                  to="/category/phones"
+                  className={({ isActive }) =>
+                    isActive ? "listActive" : "datosBlack"
+                  }
+                >
+                  Telefonos
+                </NavLink>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
+              <NavDropdown.Item>
+                <NavLink
+                  to="/category/electro"
+                  className={({ isActive }) =>
+                    isActive ? "listActive" : "datosBlack"
+                  }
+                >
+                  Electronica
+                </NavLink>
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>

@@ -3,9 +3,13 @@ import ItemList from "../ItemList/ItemList";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { itemsList } from "../service/promese";
 import Sliders from "../sliders/Sliders";
+import { useParams } from "react-router-dom";
 const ItemListContainer = () => {
   const [listProduct, setList] = useState([]);
   const [loading, setloading] = useState(true);
+
+  const { id } = useParams();
+  console.log(id);
   useEffect(() => {
     getItemResult();
   }, []);
@@ -31,8 +35,8 @@ const ItemListContainer = () => {
     <>
       <Sliders />
       <div className="container mt-5">
-        <h1>Lista de Productos</h1>
-        <ItemList listProduct={listProduct} />
+        <h1>{id ? "Lista Filtrada de Productos" : "Lista de Productos"}</h1>
+        <ItemList listProduct={listProduct} id={id} />
       </div>
     </>
   );
