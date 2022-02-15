@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import ItemCount from "../ItemCount/ItemCount";
 const ItemDetail = ({ product }) => {
+  const [quenty, setQuenty] = useState(null);
+
+  useEffect(() => {
+    console.log(quenty);
+  }, [quenty]);
   return (
     <>
       <div className="container products-wrapper">
@@ -12,7 +17,7 @@ const ItemDetail = ({ product }) => {
               <img
                 src={product.img}
                 alt="product image"
-                className=" justify-content-center  product-detail-img mt-4"
+                className="justify-content-center  product-detail-img mt-4"
               />
               <p className="product-detail-description">
                 {product.description}
@@ -41,7 +46,7 @@ const ItemDetail = ({ product }) => {
                   </li>
                 </ul>
                 <hr />
-                <ItemCount stock={product.stock} />
+                <ItemCount stock={product.stock} quenty={setQuenty} />
               </article>
             </div>
           </div>
