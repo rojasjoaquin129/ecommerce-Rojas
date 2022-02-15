@@ -11,11 +11,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-const ItemCount = ({ stock }) => {
+const ItemCount = ({ stock, quenty }) => {
   const [messageError, setMessageError] = useState("No se encontro stock");
+
   const [counter, setCounter] = useState(0);
   const [open, setOpen] = React.useState(false);
-
+  const [openSuccess, setOpenSucess] = React.useState(false);
+  const cantidad = () => quenty(counter);
   const minusCounter = () => {
     if (stock) {
       if (counter > 0) {
@@ -43,10 +45,28 @@ const ItemCount = ({ stock }) => {
     }
   };
 
+  const addCart = (event) => {
+    if (counter === 0) {
+      setMessageError("Ustede no puede elegir 0");
+      handleClick();
+    } else {
+      setOpenSucess(true);
+      setCounter(0);
+      cantidad();
+    }
+  };
+
   const handleClick = () => {
     setOpen(true);
   };
 
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSucess(false);
+  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -76,13 +96,30 @@ const ItemCount = ({ stock }) => {
         </IconButton>
       </div>
       <div>
-        <Button variant="outlined" endIcon={<AddShoppingCart />}>
+        <Button
+          onClick={addCart}
+          variant="outlined"
+          endIcon={<AddShoppingCart />}
+        >
           Agregar al carrito
         </Button>
       </div>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "20%" }}>
           {messageError}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={2000}
+        onClose={handleCloseSuccess}
+      >
+        <Alert
+          onClose={handleCloseSuccess}
+          severity="success"
+          sx={{ width: "20%" }}
+        >
+          Usted agrego con exito al carrito
         </Alert>
       </Snackbar>
     </div>
