@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   NavDropdown,
   Nav,
@@ -9,8 +9,43 @@ import {
 } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import CartWidget from "../CartWidget/CartWidget";
+
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
 import "./NabBar.css";
+import { CartConstext } from "../../context/CartContex";
+import { useEffect } from "react";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
+
 const NavBar = () => {
+  const [count, setCount] = useState(0);
+  const [invisible, setinvisible] = useState(false);
+  const { items } = useContext(CartConstext);
+  const click = () => {
+    setinvisible(false);
+    setCount(count + 1);
+  };
+  const apagado = () => {
+    setinvisible(true);
+    setCount(0);
+  };
+
+  useEffect(() => {
+    if (items.length !== 0) {
+      click();
+    } else {
+      setinvisible(true);
+    }
+  }, [items]);
+
   return (
     <BTNavbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
@@ -19,7 +54,7 @@ const NavBar = () => {
         <BTNavbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
+            style={{ maxHeight: "100px", maxWidth: "60%" }}
             navbarScroll
           >
             <Nav.Link>
@@ -66,11 +101,22 @@ const NavBar = () => {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Nav.Link href="#">
-            <CartWidget />
+
+          <Nav.Link>
+            <NavLink onClick={apagado} to="cart">
+              <StyledBadge
+                badgeContent={count}
+                color="secondary"
+                invisible={invisible}
+              >
+                <CartWidget />
+              </StyledBadge>
+            </NavLink>
           </Nav.Link>
           <Form className="d-flex">
-            <Button variant="outline-warning">Salir</Button>
+            <Button onClick={click} variant="outline-warning">
+              Salir
+            </Button>
           </Form>
         </BTNavbar.Collapse>
       </Container>

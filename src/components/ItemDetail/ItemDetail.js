@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import ItemCount from "../ItemCount/ItemCount";
+import { CartConstext } from "../../context/CartContex";
 const ItemDetail = ({ product }) => {
   const [quenty, setQuenty] = useState(null);
 
+  const { addItem } = useContext(CartConstext);
+
   useEffect(() => {
-    console.log(quenty);
+    if (quenty) {
+      handleAddToCart();
+      setQuenty(0);
+    }
   }, [quenty]);
+
+  const handleAddToCart = () => {
+    addItem({ item: product, quenty });
+  };
   return (
     <>
       <div className="container products-wrapper">
@@ -46,7 +56,11 @@ const ItemDetail = ({ product }) => {
                   </li>
                 </ul>
                 <hr />
-                <ItemCount stock={product.stock} quenty={setQuenty} />
+                <ItemCount
+                  id={product.id}
+                  stock={product.stock}
+                  quenty={setQuenty}
+                />
               </article>
             </div>
           </div>
