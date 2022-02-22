@@ -29,9 +29,13 @@ const NavBar = () => {
   const [count, setCount] = useState(0);
   const [invisible, setinvisible] = useState(false);
   const { items } = useContext(CartConstext);
+
   const click = () => {
-    setinvisible(false);
-    setCount(count + 1);
+    if (items.length > count) {
+      console.log(count);
+      setinvisible(false);
+      setCount(items.length);
+    }
   };
   const apagado = () => {
     setinvisible(true);
