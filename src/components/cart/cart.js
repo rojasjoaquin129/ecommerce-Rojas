@@ -13,13 +13,6 @@ import { NavLink } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
 import "./cart.css";
 
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
-}
-function priceRow(qty, unit) {
-  return qty * unit;
-}
-
 const Cart = () => {
   const { items, removeItem } = useContext(CartConstext);
 
@@ -66,12 +59,10 @@ const Cart = () => {
                   <img src={row.item.img} className="img" />
                 </TableCell>
                 <TableCell align="center">{row.item.name}</TableCell>
-                <TableCell align="center">
-                  {ccyFormat(row.item.price)}
-                </TableCell>
+                <TableCell align="center">{row.item.price}</TableCell>
                 <TableCell align="center">{row.quenty}</TableCell>
                 <TableCell align="center">
-                  {ccyFormat(priceRow(row.quenty, row.item.price))} {}
+                  {(row.quenty, row.item.price)}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton
