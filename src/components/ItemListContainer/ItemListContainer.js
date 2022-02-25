@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ItemList from "../ItemList/ItemList";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { itemsList } from "../service/promese";
 import Sliders from "../sliders/Sliders";
 import { useParams } from "react-router-dom";
 import { db } from "../service/firebase-service";
