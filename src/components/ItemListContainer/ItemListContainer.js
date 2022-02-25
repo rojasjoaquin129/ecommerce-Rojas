@@ -4,22 +4,26 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { itemsList } from "../service/promese";
 import Sliders from "../sliders/Sliders";
 import { useParams } from "react-router-dom";
+import { db } from "../service/firebase-service";
+import { collection, getDocs } from "firebase/firestore";
 const ItemListContainer = () => {
   const [listProduct, setList] = useState([]);
   const [loading, setloading] = useState(true);
 
   const { id } = useParams();
-  console.log(id);
   useEffect(() => {
-    getItemResult();
+    getItems();
+  
   }, []);
 
-  const getItemResult = () => {
-    itemsList.then((result) => {
-      setList(result);
-      setloading(false);
+  const getItems = () => {
+    const coleccion = collection(db, "items ");
+    getDocs(coleccion).then((snapshot)=>{
+    setList(snapshot.docs.map((doc)=>({id:doc.id,...doc.data()})));
+    setloading(false);
     });
   };
+
   if (loading) {
     return (
       <div className="row justify-content-center">
@@ -34,9 +38,13 @@ const ItemListContainer = () => {
   return (
     <>
       <Sliders />
-      <div className="container mt-5">
+       <div className="container mt-5">
         <h1>{id ? "Lista Filtrada de Productos" : "Lista de Productos"}</h1>
         <ItemList listProduct={listProduct} id={id} />
+      </div> 
+
+      <div>
+
       </div>
     </>
   );

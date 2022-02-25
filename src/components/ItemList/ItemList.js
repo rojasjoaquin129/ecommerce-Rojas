@@ -2,8 +2,10 @@ import React from "react";
 import Item from "../Item/Item";
 const ItemList = ({ listProduct, id }) => {
   let filterProduct;
+ 
   if (id) {
     filterProduct = listProduct.filter(({ category }) => category === id);
+
   }
 
   return (

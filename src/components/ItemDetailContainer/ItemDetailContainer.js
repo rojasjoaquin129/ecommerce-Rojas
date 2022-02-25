@@ -3,6 +3,8 @@ import ItemDetail from "../ItemDetail/ItemDetail";
 import { itemsList } from "../service/promese";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useParams } from "react-router-dom";
+import { db } from "../service/firebase-service";
+import { doc, getDoc } from "firebase/firestore";
 
 const ItemDetailContainer = () => {
   const [Product, setProduct] = useState({});
@@ -15,11 +17,12 @@ const ItemDetailContainer = () => {
   }, []);
 
   const getItemResult = () => {
-    itemsList.then((result) => {
-      const selectProduct = result.find((product) => product.id === id);
-      setProduct(selectProduct);
+    const itemcRef=doc(db,"items ",id);
+    getDoc(itemcRef).then((snapshot)=>{
+      setProduct({id:snapshot.id,...snapshot.data()});
       setloading(false);
-    });
+    })
+    // i
   };
 
   if (id) {

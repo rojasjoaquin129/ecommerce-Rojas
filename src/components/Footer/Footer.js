@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
       </footer>
       <div className="sub-footer">
-        <div clclassNameass="container">
+        <div className="container">
           <p>Copyright ©2022 JoaquinRojas</p>
         </div>
       </div>
