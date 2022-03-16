@@ -20,11 +20,11 @@ export const CartProvider = ({ children }) => {
     setItems([]);
   };
   const isInCart = (id) => {
-    console.log(items.filter((item) => item.item.id === id));
-    if (items.filter((item) => item.item.id === id)) {
+    if (items.some(({ item }) => item.id === id)) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   };
   return (
     <CartConstext.Provider
