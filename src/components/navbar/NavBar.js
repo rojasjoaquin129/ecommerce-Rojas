@@ -30,23 +30,13 @@ const NavBar = () => {
   const [invisible, setinvisible] = useState(false);
   const { items } = useContext(CartConstext);
 
-  const click = () => {
-    if (items.length > count) {
-      console.log(count);
+  useEffect(() => {
+    if (items.length > 0) {
       setinvisible(false);
       setCount(items.length);
-    }
-  };
-  const apagado = () => {
-    setinvisible(true);
-    setCount(0);
-  };
-
-  useEffect(() => {
-    if (items.length !== 0) {
-      click();
     } else {
       setinvisible(true);
+      setCount(0);
     }
   }, [items]);
 
@@ -107,7 +97,7 @@ const NavBar = () => {
           </Nav>
 
           <Nav.Link>
-            <NavLink onClick={apagado} to="cart">
+            <NavLink to="cart">
               <StyledBadge
                 badgeContent={count}
                 color="secondary"
@@ -118,9 +108,7 @@ const NavBar = () => {
             </NavLink>
           </Nav.Link>
           <Form className="d-flex">
-            <Button onClick={click} variant="outline-warning">
-              Salir
-            </Button>
+            <Button variant="outline-warning">Salir</Button>
           </Form>
         </BTNavbar.Collapse>
       </Container>

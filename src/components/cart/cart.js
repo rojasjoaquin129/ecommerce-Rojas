@@ -19,15 +19,47 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import "./cart.css";
-
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 const Cart = () => {
   const db = getFirestore();
   const ordersCollection = collection(db, "orders");
   const [open, setOpen] = useState(false);
+  const [buyer, setBuyer] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
+  const exito = {};
+  const valitacion = () => {
+    const { name, email, password } = buyer;
+    if (name === "" || email === "" || password === "") {
+      Swal.fire({
+        title: "ERROR!",
+        icon: "error",
+      });
+    }
+  };
+
+  const handleChange = (prop) => (event) => {
+    setBuyer({ ...buyer, [prop]: event.target.value });
+  };
   const { items, removeItem, clear } = useContext(CartConstext);
-
+  let isValidEmail = React.useMemo(
+    () => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(buyer.email),
+    [buyer.email]
+  );
+  let isValidEspacio = React.useMemo(
+    () => /[A-Za-z]$/.test(buyer.name),
+    [buyer.name]
+  );
+  let isValidPassword = React.useMemo(
+    () => /[A-Za-z]$/.test(buyer.password),
+    [buyer.password]
+  );
   const handleClickOpen = () => {
+    debugger;
     setOpen(true);
   };
 
@@ -35,31 +67,44 @@ const Cart = () => {
     setOpen(false);
   };
   const handleCloseUno = () => {
-    let nombre = document.getElementById("nombre").value;
-    let tel = document.getElementById("pass").value;
-    let email = document.getElementById("ee").value;
     let total = 0;
-    items.forEach((element) => {
-      let esto = element.item.price * element.quenty;
-      total = total + esto;
-    });
-    const buyer = {
-      name: nombre,
-      phone: tel,
-      email: email,
-    };
-    const order = {
-      buyer,
-      items: items,
-      total,
-    };
-    addDoc(ordersCollection, order).then(({ id }) => {
-      console.log("este es tu comprobante", id);
-      clear();
+    if (isValidEmail && isValidEspacio && isValidPassword) {
+      items.forEach((element) => {
+        let esto = element.item.price * element.quenty;
+        total = total + esto;
+      });
+      const order = {
+        buyer,
+        items: items,
+        total,
+      };
+      addDoc(ordersCollection, order).then(({ id }) => {
+        Swal.fire({
+          title: "USTED COMPRO CON EXITO",
+          text: "SU TIKET =====> " + id,
+          icon: "success",
+        });
+        clear();
+        setOpen(false);
+      });
+    } else {
       setOpen(false);
-    });
+      Swal.fire({
+        title: "ERROR!",
+        text: "no puede comprar si no rellena correctamente los casilleros",
+        icon: "error",
+      });
+    }
   };
 
+  const messageDelete = () => {
+    toast.info("Borro un producto de su carrito", {
+      autoClose: 2500,
+      theme: "colored",
+      position: "bottom-right",
+      hideProgressBar: true,
+    });
+  };
   const deleteItem = (id) => {
     removeItem(String(id), items);
   };
@@ -111,7 +156,10 @@ const Cart = () => {
                   <IconButton
                     color="error"
                     size="large"
-                    onClick={() => deleteItem(row.item.id)}
+                    onClick={() => {
+                      deleteItem(row.item.id);
+                      messageDelete();
+                    }}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -137,45 +185,58 @@ const Cart = () => {
           Terminar Mi compra
         </Button>
       </div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Para usted comprar tiene q registrarse .
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="nombre"
-            label="nombre requerido"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="ee"
-            label="Email requerido"
-            type="email"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="pass"
-            label="telefono requerido"
-            type="nume"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleCloseUno}>esto es lo q me llevo </Button>
-        </DialogActions>
-      </Dialog>
+      <form>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>
+            <b>Subscribe</b>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText className="margin">
+              Para Comprar usted tiene q registrarse .
+            </DialogContentText>
+
+            <TextField
+              error={!isValidEspacio}
+              margin="dense"
+              label="nombre"
+              type="text"
+              variant="outlined"
+              fullWidth
+              onChange={handleChange("name")}
+            />
+            <TextField
+              error={!isValidEmail && buyer.email !== 0}
+              margin="dense"
+              label="Email "
+              type="email"
+              fullWidth
+              variant="outlined"
+              onChange={handleChange("email")}
+            />
+            <TextField
+              error={!isValidPassword}
+              margin="dense"
+              label="Password "
+              type="password"
+              fullWidth
+              variant="outlined"
+              onChange={handleChange("password")}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleCloseUno}
+            >
+              Compar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </form>
     </div>
   );
 };

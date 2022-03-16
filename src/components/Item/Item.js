@@ -3,14 +3,14 @@ import * as React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../cart/cart.css";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Item({ product }) {
   return (
     <div className="col-12 col-sm-6 col-lg-3">
       <section className="product-box">
         <a>
-          <NavLink to={"/item/" + product.id} className="text">
+          <Link to={"/item/" + product.id} className="text">
             <figure className="product-box_image">
               <img
                 src={product.img}
@@ -42,7 +42,7 @@ export default function Item({ product }) {
                 <LocalShippingIcon />
               </i>
             </article>
-          </NavLink>
+          </Link>
         </a>
       </section>
     </div>
