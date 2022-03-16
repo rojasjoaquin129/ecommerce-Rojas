@@ -95,7 +95,6 @@ const NavBar = () => {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-
           <Nav.Link>
             <NavLink to="cart">
               <StyledBadge
