@@ -12,14 +12,13 @@ const ItemListContainer = () => {
   const { id } = useParams();
   useEffect(() => {
     getItems();
-  
   }, []);
 
   const getItems = () => {
     const coleccion = collection(db, "items ");
-    getDocs(coleccion).then((snapshot)=>{
-    setList(snapshot.docs.map((doc)=>({id:doc.id,...doc.data()})));
-    setloading(false);
+    getDocs(coleccion).then((snapshot) => {
+      setList(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setloading(false);
     });
   };
 
@@ -37,14 +36,12 @@ const ItemListContainer = () => {
   return (
     <>
       <Sliders />
-       <div className="container mt-5">
+      <div className="container mt-5">
         <h1>{id ? "Lista Filtrada de Productos" : "Lista de Productos"}</h1>
         <ItemList listProduct={listProduct} id={id} />
-      </div> 
-
-      <div>
-
       </div>
+
+      <div></div>
     </>
   );
 };
